@@ -18,6 +18,29 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
+-- Table structure for sql_logs
+-- ----------------------------
+DROP TABLE IF EXISTS `sql_logs`;
+CREATE TABLE `sql_logs` (
+    `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
+    `sql_type` VARCHAR(20),
+    `sql_statement` TEXT,
+    `table_name` VARCHAR(100),
+    `execution_time` BIGINT,
+    `rows_affected` INT,
+    `parameters` TEXT,
+    `success` BOOLEAN DEFAULT TRUE,
+    `error_message` TEXT,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `user_id` BIGINT,
+    `session_id` VARCHAR(100),
+    INDEX `idx_sql_type` (`sql_type`),
+    INDEX `idx_table_name` (`table_name`),
+    INDEX `idx_execution_time` (`execution_time`),
+    INDEX `idx_created_at` (`created_at`)
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for cashier_order_items
 -- ----------------------------
 DROP TABLE IF EXISTS `cashier_order_items`;
@@ -398,6 +421,27 @@ CREATE TABLE `users`  (
   UNIQUE INDEX `phone`(`phone` ASC) USING BTREE,
   UNIQUE INDEX `email`(`email` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- 创建SQL日志表
+CREATE TABLE IF NOT EXISTS sql_logs (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    sql_type VARCHAR(20),
+    sql_statement TEXT,
+    table_name VARCHAR(100),
+    execution_time BIGINT,
+    rows_affected INT,
+    parameters TEXT,
+    success BOOLEAN DEFAULT TRUE,
+    error_message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id BIGINT,
+    session_id VARCHAR(100),
+    INDEX idx_sql_type (sql_type),
+    INDEX idx_table_name (table_name),
+    INDEX idx_execution_time (execution_time),
+    INDEX idx_created_at (created_at)
+);
+
 
 -- ----------------------------
 -- Records of users
